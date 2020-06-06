@@ -12,7 +12,7 @@ exports.handler = async (event, context) => {
 
     const params = {
         TableName: "Users",
-        Item: {
+        Key: {
             username: username,
         }
     };
