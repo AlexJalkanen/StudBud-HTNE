@@ -6,6 +6,8 @@ AWS.config.update({region: "us-east-2"});
 exports.handler = async (event, context) => {
     const documentClient = new AWS.DynamoDB.DocumentClient({region: "us-east-2"});
 
+    let reponseBody = ""
+    let statusCode = 0;
     const { username, firstname, lastname } = JSON.parse(event.body);
 
     const params = {
