@@ -11,7 +11,7 @@ exports.handler = async (event, context) => {
     const { host } = event.pathParameters;
 
     const params = {
-        TableName: "StudBudRequets",
+        TableName: "StudBudRequests",
         Key: {
             host: host
         }
