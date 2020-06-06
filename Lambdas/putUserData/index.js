@@ -29,7 +29,7 @@ exports.handler = async (event, context) => {
         statusCode = 500;
     }
 
-    const reponse = {
+    const response = {
         statusCode: statusCode,
         headers: {
             "Content-Type": "application/json"
