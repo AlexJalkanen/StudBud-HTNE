@@ -19,9 +19,21 @@ exports.handler = async (event, context) => {
 
     try {
         const data = await documentClient.put(params).promise();
-        console.log(data);
+        reponseBody = Json.stringify(data);
+        statusCode = 201;
     }
     catch (err) {
-        console.log(err);
+        reponseBody = `Unable to put user: ${err}`
+        statusCode = 500;
     }
+
+    const reponse = {
+        statusCode: statusCode,
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: reponseBody
+    };
+
+    return response;
 }
