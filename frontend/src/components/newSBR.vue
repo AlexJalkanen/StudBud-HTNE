@@ -93,7 +93,7 @@
                     class="mt-3">
                 </v-text-field>
                 <v-btn @click="e6 = 3" text>Go Back</v-btn>
-                <v-btn color="primary" @click="e6 = 5; submit();">Submit StudBud Request</v-btn>
+                <v-btn color="primary" @click="e6 = 5; submit(); addUserPersonal();">Submit StudBud Request</v-btn>
                 
             </v-stepper-content>
         </v-stepper-step>
@@ -168,6 +168,25 @@ export default {
                 this.overlayLoad = false;
             }
         },
+        async addUserPersonal() {
+        try {
+            let config = {
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            }                
+            await axios.patch('https://8wugvfc99e.execute-api.us-east-2.amazonaws.com/prod/buds/guestUser@studbud-htne.com', {
+                newGroup: "guestUser@studbud-htne.com",
+            }, config)
+            .then(function (response) {
+                console.log(response);
+            });
+        }
+        catch (error) {
+            console.log(error)
+            this.overlayLoad = false;
+        }
+      },
   },
 }
 </script>

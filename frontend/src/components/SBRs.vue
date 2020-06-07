@@ -3,13 +3,13 @@
         <v-card-title>
             StudBud Requests
             <v-spacer></v-spacer>
-            <v-text-field
+            <!-- <v-text-field
                 v-model="search"
                 append-icon="mdi-magnify"
                 label="Search"
                 single-line
                 hide-details
-            ></v-text-field>
+            ></v-text-field> -->
         </v-card-title>
         <v-data-table
             :headers="headers"
@@ -19,7 +19,6 @@
             :loading="loading" 
             loading-text="Loading... Please wait"
             show-expand
-            single-expand=true
             :expanded.sync="expanded"
             item-key="host"
         >
@@ -41,12 +40,12 @@
                             </v-list-item-content>
                         </v-list-item>
                         
-                        <v-btn v-if="!item.studbuds.includes('guestUser@studbud-htne.com')" small color="primary" class="mb-2 ml-3 mt-1" @click="addUser(item)">Join StudBud Group</v-btn>
+                        <v-btn v-if="!item.studbuds.includes('guestUser@studbud-htne.com')" small color="primary" class="mb-2 ml-3 mt-1" @click="addUser(item); addUserPersonal(item);">Join StudBud Group</v-btn>
                         <v-btn v-else small color="grey" class="mb-2 ml-3 mt-1" @click="removeUser(item)">Leave StudBud Group</v-btn>
                         </v-col>
                         <v-col align="start">
                             <v-list flat>
-                            <v-title>{{item.studbuds.length}} / {{item.maxPeople}} StudBuds have already joined.</v-title>
+                            {{item.studbuds.length}} / {{item.maxPeople}} StudBuds have already joined.
                             <v-list-item
                                 v-for="(sb, i) in item.studbuds"
                                 :key="i"
@@ -128,6 +127,25 @@ export default {
             this.overlayLoad = false;
             item.studbuds.push("guestUser@studbud-htne.com");
 
+        }
+        catch (error) {
+            console.log(error)
+            this.overlayLoad = false;
+        }
+      },
+      async addUserPersonal(item) {
+        try {
+            let config = {
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            }                
+            await axios.patch('https://8wugvfc99e.execute-api.us-east-2.amazonaws.com/prod/buds/guestUser@studbud-htne.com', {
+                newGroup: item.host,
+            }, config)
+            .then(function (response) {
+                console.log(response);
+            });
         }
         catch (error) {
             console.log(error)
