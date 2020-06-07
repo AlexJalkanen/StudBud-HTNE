@@ -30,7 +30,7 @@ exports.handler = async (event, context) => {
     try {
         const data = await documentClient.put(params).promise();
         reponseBody = JSON.stringify(data);
-        statusCode = 201;
+        statusCode = 200;
     }
     catch (err) {
         reponseBody = `Unable to put SBR: ${err}`
@@ -41,7 +41,7 @@ exports.handler = async (event, context) => {
         statusCode: statusCode,
         headers: {
             "Content-Type": "application/json",
-            "access-control-allow-origin": "*"
+            'Access-Control-Allow-Origin': '*'
         },
         body: reponseBody
     };
