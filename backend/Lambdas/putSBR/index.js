@@ -8,7 +8,7 @@ exports.handler = async (event, context) => {
 
     let reponseBody = ""
     let statusCode = 0;
-    const { host, created, starttime, endtime, open, maxPeople, location, school, studbuds } = JSON.parse(event.body);
+    const { host, created, starttime, endtime, open, maxPeople, location, school, subject, virtual, studbuds } = JSON.parse(event.body);
 
     const params = {
         TableName: "StudBudRequests",
@@ -20,7 +20,9 @@ exports.handler = async (event, context) => {
             open: open,
             maxPeople: maxPeople,
             location: location,
-            school: school, 
+            school: school,
+            subject: subject,
+            virtual: virtual, 
             studbuds: studbuds
         }
     };
