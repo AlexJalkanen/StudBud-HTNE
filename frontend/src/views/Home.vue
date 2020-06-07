@@ -84,7 +84,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 #mainPic {
   width: 700px;
   height: auto;
