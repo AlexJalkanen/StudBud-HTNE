@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <v-app>
+
         <v-card flat tile>
           <v-toolbar>
             <v-toolbar-title>
@@ -24,7 +25,6 @@
 
   </div>
 </template>
-
 
 <style>
 #app {
