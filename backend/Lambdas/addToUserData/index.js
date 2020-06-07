@@ -11,21 +11,20 @@ exports.handler = async (event, context) => {
     const { username } = event.pathParameters;
     const { newGroup } = JSON.parse(event.body);
 
-    const params = {
-        TableName: "Users",
-        Key: {
-            username: username
-        },
-        UpdateExpression : "SET #g = list_append(#g, :newGroup)",
-        ExpressionAttributeNames : {
-            "#g" : "groups"
-        },
-        ExpressionAttributeValues : {
-            ":newGroup" : [newGroup]
-        },
-        ReturnValues: "UPDATED_NEW"
+    var params = { }
+    params.TableName = "Users";
+    params.Key = {
+        "username": username
     };
-
+    params.UpdateExpression = "SET #g = list_append(#g, :newGroup)";
+    params.ExpressionAttributeNames = {
+        "#g" : "groups"
+    };
+    params.ExpressionAttributeValues = {
+        ":newGroup" : [newGroup]
+    };
+    params.ReturnValues = "UPDATED_NEW";
+    
     try {
         const data = await documentClient.update(params).promise();
         reponseBody = JSON.stringify(data);
