@@ -158,10 +158,10 @@ export default {
                 }, config)
                 .then(function (response) {
                     console.log(response);
-                    this.snackbar = true;
-                    this.overlayLoad = false;
-                    this.$router.push({ name: 'Home', params: { }})
                 });
+                this.snackbar = true;
+                this.overlayLoad = false;
+                this.$router.push({ name: 'Home', params: { }})
             }
             catch (error) {
                 console.log(error)

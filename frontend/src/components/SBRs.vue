@@ -19,8 +19,9 @@
             :loading="loading" 
             loading-text="Loading... Please wait"
             show-expand
-            single-expand
+            single-expand=true
             :expanded.sync="expanded"
+            item-key="host"
         >
             <template v-slot:expanded-item="{ headers, item }">
                 <td :colspan="headers.length">
@@ -39,8 +40,9 @@
                             <v-list-item-subtitle>{{item.school}}</v-list-item-subtitle>
                             </v-list-item-content>
                         </v-list-item>
-
-                        <v-btn small color="primary" class="mb-2 ml-3 mt-1">Join StudBud Group</v-btn>
+                        
+                        <v-btn v-if="!item.studbuds.includes('guestUser@studbud-htne.com')" small color="primary" class="mb-2 ml-3 mt-1" @click="addUser(item)">Join StudBud Group</v-btn>
+                        <v-btn v-else small color="grey" class="mb-2 ml-3 mt-1" @click="removeUser(item)">Leave StudBud Group</v-btn>
                         </v-col>
                         <v-col align="start">
                             <v-list flat>
@@ -108,6 +110,34 @@ export default {
     catch (error) {
         console.log(error)
     }
+  },
+  methods: {
+      async addUser(item) {
+        try {
+            let config = {
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            }                
+            await axios.patch('https://8wugvfc99e.execute-api.us-east-2.amazonaws.com/prod/sbr/' + item.host, {
+                username: "guestUser@studbud-htne.com",
+            }, config)
+            .then(function (response) {
+                console.log(response);
+            });
+            this.overlayLoad = false;
+            item.studbuds.push("guestUser@studbud-htne.com");
+
+        }
+        catch (error) {
+            console.log(error)
+            this.overlayLoad = false;
+        }
+      },
+      async removeUser(item) {
+        const index = item.studbuds.indexOf("guestUser@studbud-htne.com");
+        item.studbuds.splice(index, 1);
+      }
   },
 }
 </script>

@@ -16,9 +16,9 @@ exports.handler = async (event, context) => {
         Key: {
             host: host
         },
-        UpdateExpression : "SET #studbuds = list_append(#studbuds, :username)",
+        UpdateExpression : "SET #sb = list_append(#sb, :username)",
         ExpressionAttributeNames : {
-            "#studbuds" : "Lists"
+            "#sb" : "studbuds"
         },
         ExpressionAttributeValues : {
             ":username" : [username]
@@ -29,7 +29,7 @@ exports.handler = async (event, context) => {
     try {
         const data = await documentClient.update(params).promise();
         reponseBody = JSON.stringify(data);
-        statusCode = 204;
+        statusCode = 200;
     }
     catch (err) {
         reponseBody = `Unable to update SBR: ${err}`
@@ -40,7 +40,9 @@ exports.handler = async (event, context) => {
         statusCode: statusCode,
         headers: {
             "Content-Type": "application/json",
-            "access-control-allow-origin": "*"
+            "Access-Control-Allow-Headers" : "Content-Type",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,POST,GET,PATCH"
         },
         body: reponseBody
     };
